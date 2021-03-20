@@ -12,26 +12,41 @@ const VERIFIER = {
 };
 
 function App() {
+  const [isLoading, setLoading] = useState(true);
+
   const [openlogin, setOpenLogin] = useState();
+  const [privKey, setPrivKey] = useState();
 
   const onMount = async () => {
-    const obj = new OpenLogin({
-      clientId: VERIFIER.clientId,
-      iframeUrl: "http://beta.openlogin.com",
-    });
+    setLoading(true);
 
-    setOpenLogin(obj);
-    await obj.init();
+    try {
+      const sdk = new OpenLogin({
+        clientId: VERIFIER.clientId,
+        iframeUrl: "http://beta.openlogin.com",
+      });
+      setOpenLogin(sdk);
+
+      await sdk.init();
+      setPrivKey(sdk.privKey);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onLogin = async () => {
-    if (!openlogin) return;
-    if (openlogin.privKey) return;
+    if (isLoading || privKey) return;
 
-    await openlogin.login({
-      loginProvider: VERIFIER.typeOfLogin,
-      redirectUrl: "http://localhost:3000/redirect",
-    });
+    setLoading(true);
+    try {
+      await openlogin.login({
+        loginProvider: VERIFIER.typeOfLogin,
+        redirectUrl: "http://localhost:3000/redirect",
+      });
+      setPrivKey(openlogin.privKey);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -42,7 +57,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>You didn't login yet.</p>
+        {privKey ? (
+          <p>You logged in: {privKey}</p>
+        ) : (
+          <p>You didn't login yet.</p>
+        )}
         <button className="App-button" onClick={onLogin}>
           Login
         </button>

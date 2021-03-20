@@ -1,0 +1,16 @@
+{
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  "files.insertFinalNewline": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "TTFB",
+    "browserslist",
+    "noopener",
+    "noreferrer",
+    "openlogin",
+    "preopen",
+    "toruslabs"
+  ]
+}

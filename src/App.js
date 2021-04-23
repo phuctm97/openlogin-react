@@ -14,7 +14,7 @@ function App() {
     try {
       const sdk = new OpenLogin({
         clientId:
-          "BJIKDXokclqMYdHAIdy3fN4DFESWJ4mfIgACob4p94Vwly9yTfmwhvJnUKiL8UqSEQtGIk9N1pe-jr3RH0nh4-Q",
+          "BEKbgRFZnqnMQFOQYcDdYFq0mOxZGdbVkIxzr-YoRpWWFQD5g04aAMc2xF1sf-qZ0StRkOOHqSkqQozdpwBXAz8",
         network: "mainnet",
       });
       setOpenLogin(sdk);

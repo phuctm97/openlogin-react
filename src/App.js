@@ -3,14 +3,6 @@ import OpenLogin from "@toruslabs/openlogin";
 import logo from "./logo.svg";
 import "./App.css";
 
-const VERIFIER = {
-  name: "Google",
-  typeOfLogin: "google",
-  clientId:
-    "221898609709-obfn3p63741l5333093430j3qeiinaa8.apps.googleusercontent.com",
-  verifier: "google-lrc",
-};
-
 function App() {
   const [isLoading, setLoading] = useState(true);
 
@@ -19,11 +11,11 @@ function App() {
 
   const onMount = async () => {
     setLoading(true);
-
     try {
       const sdk = new OpenLogin({
-        clientId: VERIFIER.clientId,
-        iframeUrl: "http://beta.openlogin.com",
+        clientId:
+          "BJIKDXokclqMYdHAIdy3fN4DFESWJ4mfIgACob4p94Vwly9yTfmwhvJnUKiL8UqSEQtGIk9N1pe-jr3RH0nh4-Q",
+        network: "mainnet",
       });
       setOpenLogin(sdk);
 
@@ -35,13 +27,13 @@ function App() {
   };
 
   const onLogin = async () => {
-    if (isLoading || privKey) return;
+    if (isLoading || privKey || !openlogin) return;
 
     setLoading(true);
     try {
       await openlogin.login({
-        loginProvider: VERIFIER.typeOfLogin,
-        redirectUrl: "http://localhost:3000/redirect",
+        loginProvider: "google",
+        redirectUrl: "http://localhost:3000",
       });
       setPrivKey(openlogin.privKey);
     } finally {

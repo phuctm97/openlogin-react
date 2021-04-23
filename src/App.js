@@ -35,7 +35,18 @@ function App() {
         loginProvider: "google",
         redirectUrl: "http://localhost:3000",
       });
-      setPrivKey(openlogin.privKey);
+    } catch {
+      setLoading(false);
+    }
+  };
+
+  const onLogout = async () => {
+    if (isLoading || !openlogin) return;
+
+    setLoading(true);
+    try {
+      await openlogin.logout({});
+      setPrivKey(undefined);
     } finally {
       setLoading(false);
     }
@@ -49,14 +60,23 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        {privKey ? (
-          <p>You logged in: {privKey}</p>
+        {isLoading ? (
+          "Loading..."
+        ) : privKey ? (
+          <>
+            <p>You logged in: {privKey}</p>
+            <button className="App-button" onClick={onLogout}>
+              Logout
+            </button>
+          </>
         ) : (
-          <p>You didn't login yet.</p>
+          <>
+            <p>You didn't login yet.</p>
+            <button className="App-button" onClick={onLogin}>
+              Login
+            </button>
+          </>
         )}
-        <button className="App-button" onClick={onLogin}>
-          Login
-        </button>
       </header>
     </div>
   );
